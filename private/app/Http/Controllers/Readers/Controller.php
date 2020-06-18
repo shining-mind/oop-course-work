@@ -13,7 +13,7 @@ class Controller extends CRUDController
         return new Reader();
     }
 
-    public function getRules(): array
+    public function getRules(int $id = null): array
     {
         return [
             'lastname' => 'required|max:128',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Books;
 use App\Http\Controllers\CRUDController;
 use App\Models\Books\Book;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 class Controller extends CRUDController
 {
@@ -13,10 +14,10 @@ class Controller extends CRUDController
         return new Book();
     }
 
-    public function getRules(): array
+    public function getRules(int $id = null): array
     {
         return [
-            'name' => 'required|max:255|unique:books',
+            'name' => ['required' ,'max:255', Rule::unique('books')->ignore($id)],
             'author' => 'required|max:255',
             'condition' => 'required|integer|between:0,100'
         ];

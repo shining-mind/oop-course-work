@@ -13,7 +13,7 @@ class Controller extends CRUDController
         return new Loan();
     }
 
-    public function getRules(): array
+    public function getRules(int $id = null): array
     {
         return [
             'book_id' => 'required|integer|exists:books,id',

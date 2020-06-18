@@ -10,7 +10,7 @@ abstract class CRUDController extends BaseController
 {
     abstract public function getModel(): Model;
 
-    abstract public function getRules(): array;
+    abstract public function getRules(int $id = null): array;
 
     public function create(Request $request)
     {
@@ -27,7 +27,7 @@ abstract class CRUDController extends BaseController
 
     public function edit(Request $request, int $id)
     {
-        $attributes = $this->validate($request, $this->getRules());
+        $attributes = $this->validate($request, $this->getRules($id));
         $model = $this->getModel()::findOrFail($id);
         foreach ($attributes as $key => $value) {
             $model->setAttribute($key, $value);
