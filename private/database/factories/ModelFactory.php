@@ -2,7 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
+use Carbon\Carbon;
 use App\User;
+use App\Models\Books\Book;
+use App\Models\Loans\Loan;
+use App\Models\Readers\Reader;
 use Faker\Generator as Faker;
 
 /*
@@ -20,5 +24,27 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
+    ];
+});
+
+$factory->define(Book::class, function (Faker $faker) {
+    return [
+        'name' => $faker->words(3, true),
+        'author' => $faker->name,
+        'condition' => $faker->numberBetween(1, 100)
+    ];
+});
+
+$factory->define(Reader::class, function (Faker $faker) {
+    return [
+        'lastname' => $faker->lastName,
+        'firstname' => $faker->firstName,
+        'patronymic' => null,
+    ];
+});
+
+$factory->define(Loan::class, function (Faker $faker) {
+    return [
+        'expires_at' => Carbon::now()->addDays($faker->numberBetween(1, 180))->toString()
     ];
 });
