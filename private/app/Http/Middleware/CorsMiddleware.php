@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
 class CorsMiddleware
 {
@@ -13,14 +14,21 @@ class CorsMiddleware
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
+        $headers = [
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Methods' => 'POST, PUT, DELETE, GET, OPTIONS'
+        ];
+        if ($request->getMethod() === 'OPTIONS' && app()->environment('dev')) {
+            return response('', 204)->withHeaders($headers);
+        }
         /**
          * @var \Illuminate\Http\Response
          */
         $response = $next($request);
         if (app()->environment('dev')) {
-            $response->header('Access-Control-Allow-Origin', '*');
+            $response->withHeaders($headers);
         }
         return $response;
     }
