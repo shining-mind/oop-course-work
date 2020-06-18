@@ -11,15 +11,15 @@
     export let currentPage = 1;
     let loadedPage;
     let pending = false;
-    let currentEntity = null;
+    let currentEntity;
     let errorMessage;
     let list;
-    let promise = entityManager.read();
 
     function reset() {
         currentEntity = null;
         errorMessage = null;
         list = null;
+        loadedPage = null;
     }
     function setError(error) {
         errorMessage = error.message;
@@ -28,9 +28,12 @@
         pending = value;
     }
     async function reload() {
+        if (loadedPage === currentPage) {
+            return;
+        }
         setPending(true);
-        loadedPage = currentPage;
         reset();
+        loadedPage = currentPage;
         try {
             list = await entityManager.read(currentPage);
         } catch (error) {
@@ -40,10 +43,7 @@
             setPending(false);
         }
     }
-    function handlePageChange(e) {
-        currentPage = e.detail;
-        reload();
-    }
+
     function add(e) {
         e.preventDefault();
         currentEntity = {};
@@ -91,9 +91,7 @@
     });
 
     afterUpdate(() => {
-        if (loadedPage !== currentPage) {
-            reload();
-        }
+        reload();
     });
 </script>
 <div class="panel">
@@ -134,7 +132,7 @@
         {/each}
     </Table>
     {#if list.entities.length > 0}
-        <Pagination {...list.pagination} on:change={handlePageChange} />
+        <Pagination {...list.pagination} />
     {/if}
 {/if}
 <style>
