@@ -5,11 +5,9 @@ import parseResponse from './parseResponse';
 export default class EntityManager {
     constructor(route, {
         getValuesFromEntity = (entity) => Object.values(entity),
-        defaultPage = 1
     }) {
         this.route = route;
         this.getValuesFromEntity = getValuesFromEntity;
-        this.defaultPage = defaultPage;
     }
 
     async create(entity) {
@@ -23,7 +21,7 @@ export default class EntityManager {
         return parseResponse(response);
     }
 
-    async read(page = this.defaultPage) {
+    async read(page) {
         let url = `${endpoint}${this.route}`;
         if (page) {
             url += `?page=${page}`;

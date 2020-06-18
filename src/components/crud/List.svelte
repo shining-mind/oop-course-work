@@ -1,19 +1,21 @@
 <script>
+    import { onMount, afterUpdate } from 'svelte';
     import Table from './Table.svelte';
     import Pagination from '../Pagination.svelte';
     import formDataToObject from '../../helpers/formDataToObject';
-    import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router'
     export let title;
     export let columns;
     export let entityManager;
     export let Form;
+    export let currentPage = 1;
+    let loadedPage;
     let pending = false;
     let currentEntity = null;
-    let currentPage;
     let errorMessage;
     let list;
     let promise = entityManager.read();
+
     function reset() {
         currentEntity = null;
         errorMessage = null;
@@ -27,11 +29,13 @@
     }
     async function reload() {
         setPending(true);
+        loadedPage = currentPage;
         reset();
         try {
             list = await entityManager.read(currentPage);
         } catch (error) {
             errorMessage = error.message;
+            loadedPage = null;
         } finally {
             setPending(false);
         }
@@ -82,9 +86,14 @@
             push('#/');
         }
     }
-
     onMount(() => {
         reload();
+    });
+
+    afterUpdate(() => {
+        if (loadedPage !== currentPage) {
+            reload();
+        }
     });
 </script>
 <div class="panel">
