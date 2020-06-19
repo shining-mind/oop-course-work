@@ -22,5 +22,7 @@ $crud = function () use ($router) {
     $router->get('/', 'Controller@list');
 };
 $router->group(['prefix' => 'books', 'namespace' => 'Books'], $crud);
+$router->get('/books/search', 'Books\\Controller@search');
 $router->group(['prefix' => 'readers', 'namespace' => 'Readers'], $crud);
+$router->get('/readers/search', 'Readers\\Controller@search');
 $router->group(['prefix' => 'loans', 'namespace' => 'Loans'], $crud);

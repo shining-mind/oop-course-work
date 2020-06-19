@@ -21,4 +21,9 @@ class Controller extends CRUDController
             'expires_at' => 'required|integer|between:1,180',
         ];
     }
+
+    public function list()
+    {
+        return $this->getModel()->with(['book', 'reader'])->paginate(10);
+    }
 }

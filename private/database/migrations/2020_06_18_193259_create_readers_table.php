@@ -19,6 +19,7 @@ class CreateReadersTable extends Migration
             $table->string('firstname', 128);
             $table->string('patronymic', 128)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
