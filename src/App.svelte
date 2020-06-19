@@ -25,6 +25,7 @@ import routes from './routes';
 	.home-link {
 		color: black;
 		text-decoration: none !important;
+		padding: 0 15px;
 		&:hover {
 			color: #333;
 		}

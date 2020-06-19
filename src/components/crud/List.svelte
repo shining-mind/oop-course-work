@@ -159,6 +159,7 @@
         display: inline-block;
     }
     .panel {
+        text-align: center;
         padding-top: 10px;
         padding-bottom: 30px;
     }

@@ -1,9 +1,40 @@
-<div class="container">
+<div class="container text-center">
     <h1>ИС Библиотека - абонемент</h1>
-    <ul>
-        <li><a href="#/readers">Читатели</a></li>
-        <li><a href="#/books">Книги</a></li>
-        <li><a href="#/loans">Выданные книги</a></li>
-    </ul>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-4">
+                    <a href="#/readers">
+                        <img src="./images/readers.png" alt="Читатели" />
+                        <div>Читатели</div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="#/books">
+                        <img src="./images/books.png" alt="Книги"/>
+                        <div>Книги</div>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a href="#/loans">
+                        <img src="./images/loans.png" alt="Выданные книги"/>
+                        <div>Выданные книги</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
+<style lang="scss">
+	h1 {
+		margin-bottom: 60px;
+    }
+    
+    a {
+        text-decoration: none;
+        color: black;
+        &:hover {
+            color: darkslategray;
+        }
+    }
+</style>
