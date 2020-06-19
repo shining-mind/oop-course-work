@@ -24,6 +24,6 @@ class Controller extends CRUDController
 
     public function list()
     {
-        return $this->getModel()->with(['book', 'reader'])->paginate(10);
+        return $this->getModel()->with(['book', 'reader'])->paginate(5);
     }
 }

@@ -50,6 +50,6 @@ abstract class CRUDController extends BaseController
 
     public function list()
     {
-        return $this->getModel()::paginate(10);
+        return $this->getModel()::paginate(5);
     }
 }
