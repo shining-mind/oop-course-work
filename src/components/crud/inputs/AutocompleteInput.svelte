@@ -22,7 +22,7 @@
         };
     };
 </script>
-<input class="form-control" id={id} bind:value={text} autocomplete=off on:input={handleInput}>
+<input class="form-control" id={id} bind:value={text} on:input={handleInput} autocomplete="off">
 <input type="hidden" bind:value={value} name={name} />
 {#if promise}
     <div class="search-box">
