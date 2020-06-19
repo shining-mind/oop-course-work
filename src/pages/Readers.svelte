@@ -2,7 +2,7 @@
     import { endpoint } from '../env';
     import EntityManager from '../helpers/EntityManager';
     import List from '../components/crud/List.svelte';
-    import ReaderForm from '../components/books/ReaderForm.svelte';
+    import ReaderForm from '../components/readers/ReaderForm.svelte';
     export let params = {}
     const entityManager = new EntityManager('/readers', {
         getValuesFromEntity: x => [x.id, x.lastname, x.firstname, x.patronymic || ''],

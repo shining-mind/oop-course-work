@@ -3,6 +3,7 @@
     export let submit;
     export let cancel;
     let pending = false;
+    let errorMessage;
     const dispatch = createEventDispatcher();
     if (typeof submit !== 'function') {
         throw new TypeError('Expected form submit to be a function');
@@ -11,18 +12,26 @@
         throw new TypeError('Expected form cancel to be a function');
     }
     async function handleSubmit(e) {
+        errorMessage = null;
         if (pending) {
             return;
         }
         pending = true;
         const result = await submit(e);
+        pending = false;
         if (result.success) {
             dispatch('done', result);
         } else {
+            if (result.error) {
+                errorMessage = result.error.message;
+            }
             dispatch('error', result);
         }
     }
 </script>
+{#if errorMessage}
+    <div class="alert alert-danger">{errorMessage}</div>
+{/if}
 <form on:submit|preventDefault={handleSubmit}>
     <div class="form-body">
         <slot></slot>

@@ -6,15 +6,19 @@
     export let submit;
     export let entity = {};
     let { lastname = '', firstname = '', patronymic = '' } = entity;
+    let wrongFields = {};
+    function onError(e) {
+        ({ wrongFields } = e.detail);
+    }
 </script>
-<Form {cancel} {submit} on:change on:done>
-    <FormField id="lastname" label="Фамилия">
+<Form {cancel} {submit} on:error on:done>
+    <FormField id="lastname" label="Фамилия" error={wrongFields.lastname}>
         <TextInput id="lastname" name="lastname" value={lastname} />
     </FormField>
-    <FormField id="firstname" label="Имя">
+    <FormField id="firstname" label="Имя" error={wrongFields.firstname}>
         <TextInput id="firstname" name="firstname" value={firstname} />
     </FormField>
-    <FormField id="patronymic" label="Отчество">
+    <FormField id="patronymic" label="Отчество" error={wrongFields.patronymic}>
         <TextInput id="patronymic" name="patronymic" value={patronymic}  />
     </FormField>
 </Form>

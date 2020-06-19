@@ -10,14 +10,20 @@ export default async function parseResponse(response) {
         return { success: true, data };
     }
     let error = new Error('Произошла непредвиденная ошибка');
+    const result = {
+        success: false,
+    };
     switch (response.status) {
         case 422:
             error = new Error('Неверные входные данные');
-            data = { wrongFields: data };
+            result.wrongFields = Object.keys(data).reduce((carry, key) => {
+                carry[key] = data[key].join('<br>');
+                return carry;
+            }, {});
             break;
         case 404:
             error = new Error('Ресурс не найден');
             break;
     } 
-    return { success: false, error, data };
+    return { ...result, error, data };
 }
