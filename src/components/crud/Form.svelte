@@ -38,8 +38,8 @@
     </div>
     <div class="form-footer">
         <div class="text-right">
-            <button type="button" class="btn btn-secondary" on:click={cancel} disabled={pending}>Отмена</button>
-            <button type="submit" class="btn btn-primary" disabled={pending}>Сохранить</button>
+            <button type="button" class="btn btn-light" on:click={cancel} disabled={pending}>Отмена</button>
+            <button type="submit" class="btn btn-success" disabled={pending}>Сохранить</button>
         </div>
     </div>
 </form>

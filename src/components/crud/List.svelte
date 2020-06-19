@@ -114,7 +114,7 @@
 </script>
 <div class="panel">
     <h1><a href="#/" class="home-link" on:click={handleGoToHome}>↼</a>{@html title}</h1>
-    <button type="button" class="btn btn-info float-right" on:click={add}>Добавить</button>
+    <button type="button" class="btn btn-primary float-right" on:click={add}>Добавить</button>
 </div>
 {#if errorMessage}
     <div class="alert alert-danger">{errorMessage}</div>
@@ -153,7 +153,7 @@
         <Pagination {...list.pagination} />
     {/if}
 {/if}
-<Confirm bind:isOpen={showConfirm} text="Вы уверены что хотите удалить эту запись?" on:confirm={onDelete} />
+<Confirm bind:isOpen={showConfirm} text="Вы уверены что хотите удалить эту запись?" on:confirm={onDelete} on:cancel={() => currentEntity = null} />
 <style>
     h1 {
         display: inline-block;

@@ -17,7 +17,7 @@
     </div>
     <div class="modal-body">{text}</div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" on:click={() => handleClick('cancel')}>Отмена</button>
+        <button type="button" class="btn btn-light" on:click={() => handleClick('cancel')}>Отмена</button>
         <button type="button" class="btn btn-primary" on:click={() => handleClick('confirm')}>Подтвердить</button>
     </div>
 </Modal>

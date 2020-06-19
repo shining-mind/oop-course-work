@@ -5,6 +5,11 @@ import routes from './routes';
 <main>
 	<Router {routes} />
 </main>
+<footer>
+	<div class="container">
+		Icons by <a target="_blank" href="https://icons8.com">Icons8</a>
+	</div>
+</footer>
 <style lang="scss" global>
 	@import "./node_modules/bootstrap/scss/bootstrap-reboot";
 	@import "./node_modules/bootstrap/scss/grid";
@@ -29,5 +34,13 @@ import routes from './routes';
 		&:hover {
 			color: #333;
 		}
+	}
+
+	footer {
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		padding: 20px 0;
+		text-align: right;
 	}
 </style>
