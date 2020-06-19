@@ -27,7 +27,7 @@
     }
 
     function setError(error) {
-        errorMessage = error.message;
+        errorMessage = error && error.message;
     }
     
     function setPending(value) {
@@ -45,7 +45,6 @@
             list = await entityManager.read(currentPage);
         } catch (error) {
             errorMessage = error.message;
-            loadedPage = null;
         } finally {
             setPending(false);
         }
@@ -126,7 +125,7 @@
         cancel={() => currentEntity = null}
         submit={currentEntity.id ? submitEdit : submitCreate}
         on:done={reload}
-        on:error={setError}
+        on:error={(e) => setError(e.detail.error)}
     />
 {:else if pending}
     <!-- TODO: add overlay -->
