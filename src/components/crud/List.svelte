@@ -1,6 +1,7 @@
 <script>
     import { onMount, afterUpdate } from 'svelte';
     import Table from './Table.svelte';
+    import Confirm from '../modals/Confirm.svelte';
     import Pagination from '../Pagination.svelte';
     import formDataToObject from '../../helpers/formDataToObject';
     import { push } from 'svelte-spa-router'
@@ -9,9 +10,11 @@
     export let entityManager;
     export let Form;
     export let currentPage = 1;
-    let loadedPage;
     let pending = false;
+    let showConfirm = false;
+    let loadedPage;
     let currentEntity;
+    let currentOperation;
     let errorMessage;
     let list;
 
@@ -20,15 +23,19 @@
         errorMessage = null;
         list = null;
         loadedPage = null;
+        currentOperation = null;
     }
+
     function setError(error) {
         errorMessage = error.message;
     }
+    
     function setPending(value) {
         pending = value;
     }
-    async function reload() {
-        if (loadedPage === currentPage) {
+
+    async function reload(force = false) {
+        if (loadedPage === currentPage && !force) {
             return;
         }
         setPending(true);
@@ -48,23 +55,35 @@
         e.preventDefault();
         currentEntity = {};
     }
+
     function edit(entity) {
         return (e) => {
             e.preventDefault();
             currentEntity = entity;
+            currentOperation = 'edit';
         };
     }
+
     function del(entity) {
-        return async (e) => {
+        return (e) => {
             e.preventDefault();
-            setPending(true);
-            const { success, error } = await entityManager.delete(entity);
-            if (!success) {
-                setError(error);
-            } else {
-                reload();
-            }
+            currentEntity = entity;
+            currentOperation = 'delete';
+            showConfirm = true;
         };
+    }
+    
+    async function onDelete() {
+        if (currentEntity) {
+            setPending(true);
+            const { success, error } = await entityManager.delete(currentEntity);
+            if (success) {
+                reload(true);
+            } else {
+                setError(error);
+                setPending(false);
+            }
+        }
     }
 
     function submitEdit(e) {
@@ -100,11 +119,11 @@
 </div>
 {#if errorMessage}
     <div class="alert alert-danger">{errorMessage}</div>
-{:else if currentEntity}
+{:else if currentEntity && currentOperation !== 'delete'}
     <svelte:component
         this={Form}
         bind:entity={currentEntity}
-        cancel={reset}
+        cancel={() => currentEntity = null}
         submit={currentEntity.id ? submitEdit : submitCreate}
         on:done={reload}
         on:error={setError}
@@ -135,6 +154,7 @@
         <Pagination {...list.pagination} />
     {/if}
 {/if}
+<Confirm bind:isOpen={showConfirm} text="Вы уверены что хотите удалить эту запись?" on:confirm={onDelete} />
 <style>
     h1 {
         display: inline-block;

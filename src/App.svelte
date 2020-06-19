@@ -13,6 +13,7 @@ import routes from './routes';
 	@import "./node_modules/bootstrap/scss/buttons";
 	@import "./node_modules/bootstrap/scss/alert";
 	@import "./node_modules/bootstrap/scss/pagination";
+	@import "./node_modules/bootstrap/scss/modal";
 	@import "./node_modules/bootstrap/scss/utilities/text";
 	@import "./node_modules/bootstrap/scss/utilities/flex";
 	@import "./node_modules/bootstrap/scss/utilities/float";
