@@ -10,6 +10,7 @@
         return [...Array(size).keys()].map(i => i + startAt);
     }
 </script>
+{#if lastPage > 1}
 <nav>
     <ul class="pagination justify-content-center">
         <li class="page-item {currentPage === 1 ? 'disabled' : ''}">
@@ -29,6 +30,7 @@
         </li>
     </ul>
 </nav>
+{/if}
 <p class="text-center">
     Страница <code>{currentPage}</code> из <code>{lastPage}</code>
     {#if from && to }
