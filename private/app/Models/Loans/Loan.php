@@ -57,7 +57,7 @@ class Loan extends Model
 
     public function getExpiresInAttribute()
     {
-        return Carbon::now()->diffInDays($this->expires_at);
+        return Carbon::now()->endOfDay()->diffInDays($this->expires_at->endOfDay());
     }
 
     public function getCreatedAtReadableAttribute()
