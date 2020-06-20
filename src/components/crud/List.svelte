@@ -8,6 +8,8 @@
     import formDataToObject from '../../helpers/formDataToObject';
     import { push } from 'svelte-spa-router'
     export let title;
+    export let titleAdd = 'Создание объекта';
+    export let titleEdit = 'Редактирование объекта';
     export let columns;
     export let entityManager;
     export let Form;
@@ -134,11 +136,17 @@
 <div class="panel">
     <h1>
         <a href="#/" class="home-link" on:click={handleGoToHome}>↼</a>
-        {@html title}
-        <span on:click={add}><Icon icon={faPlusCircle} class="add" /></span>
+        {#if currentEntity && currentEntity.id}
+            {@html titleEdit}
+        {:else if currentEntity}
+            {@html titleAdd}
+        {:else}
+            {@html title}
+            <span on:click={add}><Icon icon={faPlusCircle} class="add" /></span>
+        {/if}
     </h1>
 </div>
-{#if supportsTrash}
+{#if supportsTrash && !currentEntity}
     <div class="filter form-inline">
         <div class="form-group">
             <input type="checkbox" id="with-trashed" on:change={() => withTrashed = !withTrashed} checked={withTrashed} />

@@ -22,6 +22,8 @@
 <div class="container">
     <List
         title="Список выданных книг"
+        titleAdd="Выдать книгу"
+        titleEdit="Изменить информацию о выдаче книги"
         Form={LoanForm}
         entityManager={entityManager}
         {columns}

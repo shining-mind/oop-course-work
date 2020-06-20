@@ -12,6 +12,8 @@
 <div class="container">
     <List
         title="Читатели"
+        titleAdd="Добавить читателя"
+        titleEdit="Изменить информацию о читателе"
         Form={ReaderForm}
         entityManager={entityManager}
         {columns}
