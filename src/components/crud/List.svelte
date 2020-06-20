@@ -1,5 +1,7 @@
 <script>
     import { onMount, afterUpdate } from 'svelte';
+    import Icon from 'fa-svelte';
+    import { faPlusCircle, faTrashAlt, faEdit, faTrashRestoreAlt } from '@fortawesome/free-solid-svg-icons';
     import Table from './Table.svelte';
     import Confirm from '../modals/Confirm.svelte';
     import Pagination from '../Pagination.svelte';
@@ -10,9 +12,11 @@
     export let entityManager;
     export let Form;
     export let currentPage = 1;
+    export let supportsTrash = false;
     let pending = false;
+    let withTrashed = false;
     let showConfirm = false;
-    let loadedPage;
+    let loadedHash = null;
     let currentEntity;
     let currentOperation;
     let errorMessage;
@@ -22,7 +26,7 @@
         currentEntity = null;
         errorMessage = null;
         list = null;
-        loadedPage = null;
+        loadedHash = null;
         currentOperation = null;
     }
 
@@ -35,14 +39,15 @@
     }
 
     async function reload(force = false) {
-        if (loadedPage === currentPage && !force) {
+        const newHash = `${currentPage}${withTrashed}`;
+        if (loadedHash === newHash && !force) {
             return;
         }
         setPending(true);
         reset();
-        loadedPage = currentPage;
+        loadedHash = newHash;
         try {
-            list = await entityManager.read(currentPage);
+            list = await entityManager.read(currentPage, { withTrashed });
         } catch (error) {
             errorMessage = error.message;
         } finally {
@@ -69,6 +74,20 @@
             currentEntity = entity;
             currentOperation = 'delete';
             showConfirm = true;
+        };
+    }
+
+    function restore(entity) {
+        return async (e) => {
+            e.preventDefault();
+            setPending(true);
+            const { success, error } = await entityManager.restore(entity);
+            if (success) {
+                reload(true);
+            } else {
+                setError(error);
+                setPending(false);
+            }
         };
     }
     
@@ -113,9 +132,20 @@
     });
 </script>
 <div class="panel">
-    <h1><a href="#/" class="home-link" on:click={handleGoToHome}>↼</a>{@html title}</h1>
-    <button type="button" class="btn btn-primary float-right" on:click={add}>Добавить</button>
+    <h1>
+        <a href="#/" class="home-link" on:click={handleGoToHome}>↼</a>
+        {@html title}
+        <span on:click={add}><Icon icon={faPlusCircle} class="add" /></span>
+    </h1>
 </div>
+{#if supportsTrash}
+    <div class="filter form-inline">
+        <div class="form-group">
+            <input type="checkbox" id="with-trashed" on:change={() => withTrashed = !withTrashed} checked={withTrashed} />
+            <label for="with-trashed">Показать удаленные</label>
+        </div>
+    </div>
+{/if}
 {#if errorMessage}
     <div class="alert alert-danger">{errorMessage}</div>
 {:else if currentEntity && currentOperation !== 'delete'}
@@ -143,8 +173,12 @@
                 <td>{value}</td>
             {/each}
             <td class="controls">
-                <button type="button" class="btn btn-info" on:click={edit(entity)} disabled={pending}>Редактировать</button>
-                <button type="button" class="btn btn-danger" on:click={del(entity)} disabled={pending}>Удалить</button>
+                <span on:click={edit(entity)} class:disabled={pending}><Icon icon={faEdit} class="edit" /></span>
+                {#if entity.deleted}
+                    <span on:click={restore(entity)} class:disabled={pending}><Icon icon={faTrashRestoreAlt} class="restore" /></span>
+                {:else}
+                    <span on:click={del(entity)} class:disabled={pending}><Icon icon={faTrashAlt} class="delete" /></span>
+                {/if}
             </td>
             </tr>
         {/each}
@@ -154,19 +188,64 @@
     {/if}
 {/if}
 <Confirm bind:isOpen={showConfirm} text="Вы уверены что хотите удалить эту запись?" on:confirm={onDelete} on:cancel={() => currentEntity = null} />
-<style>
+<style lang="scss">
+    @import "../../scss/var";
     h1 {
         display: inline-block;
     }
+
+    .filter {
+        padding-bottom: $padding;
+        .form-group {
+            margin-right: $margin;
+        }
+
+        input + label {
+            margin-left: $margin * 0.5;
+        }
+
+        [type=checkbox], [type=checkbox] + label {
+            cursor: pointer;
+        }
+    }
+
     .panel {
         text-align: center;
-        padding-top: 10px;
-        padding-bottom: 30px;
+        padding-top: $padding;
+        padding-bottom: $padding;
     }
     .controls {
         text-align: right;
+        span {
+            cursor: pointer;
+        }
+        .disabled {
+            cursor: default;
+        }
     }
     p {
         text-align: center;
+    }
+    :global(.add) {
+        cursor: pointer;
+        font-size: 0.8em;
+        margin: 0 $margin;
+        &:hover {
+            color: $primary;
+        }
+    }
+    :global(.edit, .delete, .restore) {
+        margin: 0 $margin * 0.5;
+    }
+    :global(.edit:hover) {
+        color: $warning;
+    }
+
+    :global(.delete:hover) {
+        color: $danger;
+    }
+
+    :global(.restore:hover) {
+        color: $success;
     }
 </style>

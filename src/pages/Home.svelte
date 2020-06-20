@@ -26,15 +26,17 @@
     </div>
 </div>
 <style lang="scss">
+    @import "../scss/var";
+
 	h1 {
-		margin-bottom: 60px;
+		margin-bottom: $margin * 3;
     }
     
     a {
         text-decoration: none;
-        color: black;
+        color: $font-color;
         &:hover {
-            color: darkslategray;
+            color: $hover-color;
         }
     }
 </style>

@@ -11,6 +11,7 @@ import routes from './routes';
 	</div>
 </footer>
 <style lang="scss" global>
+	@import "./scss/var";
 	@import "./node_modules/bootstrap/scss/bootstrap-reboot";
 	@import "./node_modules/bootstrap/scss/grid";
 	@import "./node_modules/bootstrap/scss/tables";
@@ -19,20 +20,17 @@ import routes from './routes';
 	@import "./node_modules/bootstrap/scss/alert";
 	@import "./node_modules/bootstrap/scss/pagination";
 	@import "./node_modules/bootstrap/scss/modal";
-	@import "./node_modules/bootstrap/scss/utilities/text";
-	@import "./node_modules/bootstrap/scss/utilities/flex";
-	@import "./node_modules/bootstrap/scss/utilities/float";
 
     main {
-        padding-top: 20px;
+        padding-top: $padding;
 	}
 
 	.home-link {
-		color: black;
+		color: $font-color;
 		text-decoration: none !important;
-		padding: 0 15px;
+		padding: 0 $padding;
 		&:hover {
-			color: #333;
+			color: $hover-color;
 		}
 	}
 
@@ -40,7 +38,7 @@ import routes from './routes';
 		width: 100%;
 		position: fixed;
 		bottom: 0;
-		padding: 20px 0;
+		padding: $padding 0;
 		text-align: right;
 	}
 </style>

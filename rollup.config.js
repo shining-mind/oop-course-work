@@ -32,6 +32,12 @@ export default {
 			// a separate file - better for performance
 			css: css => {
 				css.write('public/build/bundle.css');
+			},
+			onwarn: (warning, handler) => {
+				const { code, frame } = warning;
+				if (code === "css-unused-selector")
+				  	return;
+				handler(warning);
 			}
 		}),
 

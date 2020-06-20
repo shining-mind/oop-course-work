@@ -29,14 +29,9 @@
         </li>
     </ul>
 </nav>
-<p>
+<p class="text-center">
     Страница <code>{currentPage}</code> из <code>{lastPage}</code>
     {#if from && to }
         (показано с <code>{from}</code> по <code>{to}</code> из <code>{total}</code>)
     {/if}
 </p>
-<style>
-    p {
-        text-align: center;
-    }
-</style>

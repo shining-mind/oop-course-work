@@ -16,6 +16,7 @@
         entityManager={entityManager}
         {columns}
         currentPage={params.page || 1}
+        supportsTrash
     />
 </div>
 

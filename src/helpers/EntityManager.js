@@ -21,10 +21,17 @@ export default class EntityManager {
         return parseResponse(response);
     }
 
-    async read(page) {
+    async read(page, { withTrashed = false } = {}) {
         let url = `${endpoint}${this.route}`;
+        const params = [];
         if (page) {
-            url += `?page=${page}`;
+            params.push(`page=${page}`);
+        }
+        if (withTrashed) {
+            params.push(`with_trashed=1`);
+        }
+        if (params.length) {
+            url += '?' + params.join('&');
         }
         const { success, error, data } = await parseResponse(await fetch(url));
         if (success) {
@@ -57,6 +64,12 @@ export default class EntityManager {
     async delete(entity) {
         return parseResponse(await fetch(`${endpoint}${this.route}/${entity.id}`, {
             method: 'DELETE',
+        }));
+    }
+
+    async restore(entity) {
+        return parseResponse(await fetch(`${endpoint}${this.route}/${entity.id}`, {
+            method: 'PATCH',
         }));
     }
 }

@@ -44,10 +44,11 @@
     </div>
 </form>
 <style lang="scss">
+    @import "../../scss/var";
     form {
-        padding: 20px 40px;
-        background-color: #fefefe;
-        border: 1px solid #aeaeae;
+        padding: $padding $padding * 2;
+        background-color: $gray-100;
+        border: 1px solid $gray-300;
         border-radius: 5px;
     }
 </style>

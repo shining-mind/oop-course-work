@@ -46,22 +46,37 @@
 
 
 <style lang="scss">
+    @import "../../../scss/var";
+
     .search-box {
-        margin-top: 10px;
+        margin-top: $margin;
     }
+
     .search-box ul {
         list-style: none;
         padding: 0;
     }
+
     .search-box li {
-        height: calc(1.5em + 0.75rem + 2px);
-        padding: 0.375rem 0.75rem;
-        border-radius: 0.25rem;
-        line-height: 1.5;
+        height: $input-height;
+        padding: $input-padding-y $input-padding-x;
+        line-height: $input-line-height;
+        border: 1px solid $gray-300;
+        border-collapse: collapse;
+        border-bottom: none;
         cursor: pointer;
         &:hover {
-            background-color: lightskyblue !important;
+            background-color: $focus-color !important;
         }
+        &:first-child {
+            @include border-top-radius($input-border-radius);
+        }
+
+        &:last-child {
+            @include border-bottom-radius($input-border-radius);
+            border-bottom: 1px solid $gray-300;
+        }
+
         &:nth-child(n) {
             background-color: white;
         }

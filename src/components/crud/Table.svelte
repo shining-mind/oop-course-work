@@ -17,8 +17,10 @@
         </tbody>
     </table>
 </div>
-<style>
+<style lang="scss">
+    @import "../../scss/var";
+    
     .controls {
-        width: 30%;
+        width: 10%;
     }
 </style>
