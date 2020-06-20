@@ -1,7 +1,7 @@
 <script>
     import Form from '../crud/Form.svelte';
     import FormField from '../crud/FormField.svelte';
-    import { NumberInput, TextInput } from '../crud/inputs';
+    import { RangeInput, TextInput } from '../crud/inputs';
     export let cancel;
     export let submit;
     export let entity = {};
@@ -19,7 +19,7 @@
     <FormField id="author" label="Автор" error={wrongFields.author}>
         <TextInput id="author" name="author" value={author} />
     </FormField>
-    <FormField id="condition" label="Состояние (от 0 до 100)" error={wrongFields.condition}>
-        <NumberInput id="condition" name="condition" value={condition} min={0} max={100} />
+    <FormField id="condition" label="Состояние книги:" error={wrongFields.condition}>
+        <RangeInput id="condition" name="condition" value={condition} min={0} max={100} postfix=" %" />
     </FormField>
 </Form>
