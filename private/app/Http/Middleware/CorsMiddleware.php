@@ -18,7 +18,7 @@ class CorsMiddleware
     {
         $headers = [
             'Access-Control-Allow-Origin' => '*',
-            'Access-Control-Allow-Methods' => 'POST, PUT, DELETE, GET, OPTIONS'
+            'Access-Control-Allow-Methods' => 'POST, PUT, DELETE, GET, PATCH, OPTIONS'
         ];
         if ($request->getMethod() === 'OPTIONS' && app()->environment('dev')) {
             return response('', 204)->withHeaders($headers);

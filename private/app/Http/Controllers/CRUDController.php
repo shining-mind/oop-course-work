@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller as BaseController;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 
 abstract class CRUDController extends BaseController
@@ -48,8 +49,26 @@ abstract class CRUDController extends BaseController
         return response('', 500);
     }
 
-    public function list()
+    public function restore(Request $request, int $id)
     {
-        return $this->getModel()::paginate(5);
+        $model = $this->getModel();
+        if (!in_array(SoftDeletes::class, class_uses($model))) {
+            return response('', 200);
+        }
+        $model = $model->withTrashed()->findOrFail($id);
+        if ($model->restore()) {
+            return response('', 200);
+        }
+        return response('', 500);
+    }
+
+    public function list(Request $request)
+    {
+        $model = $this->getModel();
+        $query = $model->query();
+        if ($request->has('with_trashed')) {
+            $query->withTrashed();
+        }
+        return $query->paginate(5);
     }
 }

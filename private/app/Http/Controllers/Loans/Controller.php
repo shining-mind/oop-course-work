@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Loans;
 use App\Http\Controllers\CRUDController;
 use App\Models\Loans\Loan;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Controller extends CRUDController
 {
@@ -22,7 +23,7 @@ class Controller extends CRUDController
         ];
     }
 
-    public function list()
+    public function list(Request $request)
     {
         return $this->getModel()->with(['book', 'reader'])->paginate(5);
     }

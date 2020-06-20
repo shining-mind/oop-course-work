@@ -20,6 +20,7 @@ $crud = function () use ($router) {
     $router->put('/{id}', 'Controller@edit');
     $router->delete('/{id}', 'Controller@delete');
     $router->get('/', 'Controller@list');
+    $router->patch('/{id}', 'Controller@restore');
 };
 $router->group(['prefix' => 'books', 'namespace' => 'Books'], $crud);
 $router->get('/books/search', 'Books\\Controller@search');

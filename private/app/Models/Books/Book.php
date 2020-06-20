@@ -19,11 +19,21 @@ class Book extends Model
         'id',
         'name',
         'author',
-        'condition'
+        'condition',
+        'deleted'
+    ];
+
+    protected $appends = [
+        'deleted'
     ];
 
     public function loan()
     {
         return $this->hasOne(Loan::class);
+    }
+
+    public function getDeletedAttribute()
+    {
+        return !is_null($this->deleted_at);
     }
 }

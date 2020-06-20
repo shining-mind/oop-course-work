@@ -19,10 +19,12 @@ class Reader extends Model
         'lastname',
         'firstname',
         'patronymic',
+        'deleted'
     ];
 
     protected $appends = [
-        'loan_count'
+        'loan_count',
+        'deleted'
     ];
 
     public function loans()
@@ -33,5 +35,10 @@ class Reader extends Model
     public function loanCount()
     {
         return $this->loans()->count();
+    }
+
+    public function getDeletedAttribute()
+    {
+        return !is_null($this->deleted_at);
     }
 }
